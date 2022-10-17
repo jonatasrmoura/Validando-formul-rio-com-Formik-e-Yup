@@ -11,7 +11,7 @@ export function Input({ label, id, messageError, ...rest }: InputProps) {
   return (
     <Container isError={!!messageError}>
       <Label htmlFor={id}>{label}</Label>
-      <Field id={id} { ...rest } />
+      <Field isError={!!messageError} id={id} { ...rest } />
       {messageError && <ErrorMessage>{messageError}</ErrorMessage>}
     </Container>
   )

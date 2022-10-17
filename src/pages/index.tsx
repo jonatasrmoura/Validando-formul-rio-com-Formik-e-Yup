@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { string, SchemaOf, object, ref } from 'yup';
 
 import { Input } from '../components/Input';
 import { Container } from '../styles';
@@ -9,18 +9,23 @@ interface UserProps {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 const initialValues: UserProps = {
   name: '',
   email: '',
   password: '',
-} 
+  confirmPassword: '',
+}
 
-const SignupSchema = yup.object().shape({
-  name: yup.string().min(4, 'Nome muito curto!').max(50, 'Nome muito longo!').required('Preencha com um nome'),
-  email:  yup.string().email('E-mail inválido!').required('Preencha com um e-mail válido!'),
-  password: yup.string().min(6, 'Senha muito curta!').required('Preencha com sua senha'),
+const SignupSchema: SchemaOf<UserProps> = object({
+  name: string().min(4, 'Nome muito curto!').max(50, 'Nome muito longo!').required('Preencha com um nome'),
+  email:  string().email('E-mail inválido!').required('Preencha com um e-mail válido!'),
+  password: string().min(6, 'Senha muito curta!').required('Preencha com sua senha'),
+  confirmPassword: string().oneOf([
+    null, ref<string>('password')
+  ], 'As senhas precisam ser iguais!').required('Confirme sua senha!')
 });
 
 const onSubmit = (values: UserProps) => {
@@ -66,6 +71,16 @@ const Home: NextPage = () => {
         value={formik.values.password} 
         onChange={formik.handleChange}
         messageError={formik.errors.password}
+      />
+      <Input
+        id="confirmPassword"
+        name='confirmPassword'
+        type="password" 
+        label='Confirmar senha' 
+        placeholder='Digite sua senha'
+        value={formik.values.confirmPassword} 
+        onChange={formik.handleChange}
+        messageError={formik.errors.confirmPassword}
       />
 
       <button type='submit'>

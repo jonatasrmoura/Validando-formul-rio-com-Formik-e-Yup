@@ -7,18 +7,19 @@ export interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
-  padding: 7px 14px;
-  border: solid ${props => props.isError ? 'red' : 'green' } 1px;
+  padding: 10px 14px;
+  border: solid ${props => props.isError ? 'red' : 'black' } 1px;
   border-radius: 6px;
 `;
 
 export const Label = styled.label``;
 
-export const Field = styled.input`
-  height: 20px;
+export const Field = styled.input<ContainerProps>`
+  height: 24px;
+  border: solid ${props => props.isError ? 'red' : 'black' } 1px;
 `;
 
 export const ErrorMessage = styled.span`
-  margin-top: 5px;
+  margin-top: 6px;
   color: red;
 `;
