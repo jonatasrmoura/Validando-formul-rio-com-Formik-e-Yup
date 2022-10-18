@@ -30,6 +30,7 @@ const SignupSchema: SchemaOf<UserProps> = object({
 
 const onSubmit = (values: UserProps) => {
   console.log(values);
+  alert(JSON.stringify(values, null, 2));
 }
 
 const Home: NextPage = () => {
